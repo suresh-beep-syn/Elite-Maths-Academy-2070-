@@ -4,9 +4,29 @@ import os
 
 app = Flask(__name__)
 
-# ==============================
-# HOME PAGE
-# ==============================
+# =================================
+# ALL COURSES / PROGRAMMES
+# =================================
+
+COURSES = [
+    ("Class 9th", "Mathematics and Science"),
+    ("Class 10th", "Mathematics and Science"),
+    ("Class 11th", "Mathematics, Physics, Chemistry, Biology"),
+    ("Class 12th", "Mathematics, Physics, Chemistry, Biology"),
+    ("JEE Preparation", "Engineering Entrance Preparation"),
+    ("NEET Preparation", "Medical Entrance Preparation"),
+    ("Foundation Course", "Build Strong Academic Concepts"),
+    ("CUET Preparation", "Common University Entrance Preparation"),
+    ("SSC CGL", "Staff Selection Commission - Combined Graduate Level"),
+    ("SSC CHSL", "Staff Selection Commission - Combined Higher Secondary Level"),
+    ("UPSC CSAT", "Civil Services Aptitude Test Preparation"),
+    ("Other Courses", "Contact Us for More Details")
+]
+
+
+# =================================
+# HOME PAGE HTML
+# =================================
 
 HOME_HTML = """
 <!DOCTYPE html>
@@ -16,7 +36,6 @@ HOME_HTML = """
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -139,7 +158,6 @@ footer {
 }
 
 @media(max-width:600px) {
-
     header h1 {
         font-size: 23px;
     }
@@ -152,9 +170,7 @@ footer {
         display: inline-block;
         margin: 8px;
     }
-
 }
-
 </style>
 </head>
 
@@ -181,9 +197,7 @@ footer {
         and Achieve Your Goals.
     </p>
 
-    <p>
-        Quality Education for Students
-    </p>
+    <p>Quality Education for Students</p>
 
     <a class="btn" href="/enquiry">
         STUDENT ENQUIRY
@@ -209,50 +223,14 @@ footer {
 
     <div class="cards">
 
-        <div class="card">
-            <h3>Class 9th</h3>
-            <p>Mathematics and Science</p>
-        </div>
+        {% for course, description in courses %}
 
         <div class="card">
-            <h3>Class 10th</h3>
-            <p>Mathematics and Science</p>
+            <h3>{{ course }}</h3>
+            <p>{{ description }}</p>
         </div>
 
-        <div class="card">
-            <h3>Class 11th</h3>
-            <p>Mathematics, Physics, Chemistry, Biology</p>
-        </div>
-
-        <div class="card">
-            <h3>Class 12th</h3>
-            <p>Mathematics, Physics, Chemistry, Biology</p>
-        </div>
-
-        <div class="card">
-            <h3>JEE Preparation</h3>
-            <p>Engineering Entrance Preparation</p>
-        </div>
-
-        <div class="card">
-            <h3>NEET Preparation</h3>
-            <p>Medical Entrance Preparation</p>
-        </div>
-
-        <div class="card">
-            <h3>Foundation Course</h3>
-            <p>Build Strong Academic Concepts</p>
-        </div>
-
-        <div class="card">
-            <h3>CUET Preparation</h3>
-            <p>Common University Entrance Preparation</p>
-        </div>
-
-        <div class="card">
-            <h3>Other Courses</h3>
-            <p>Contact Us for More Details</p>
-        </div>
+        {% endfor %}
 
     </div>
 
@@ -294,9 +272,9 @@ footer {
 """
 
 
-# ==============================
+# =================================
 # STUDENT ENQUIRY FORM
-# ==============================
+# =================================
 
 FORM_HTML = """
 <!DOCTYPE html>
@@ -311,7 +289,7 @@ content="width=device-width, initial-scale=1">
 <style>
 
 body {
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background: #eef2f7;
     padding: 20px;
 }
@@ -406,19 +384,15 @@ STUDENT ENQUIRY FORM
     <input type="tel" name="mobile"
     pattern="[0-9]{10}" maxlength="10" required>
 
-    <label>Class</label>
+    <label>Programme / Class</label>
 
     <select name="class_name" required>
-        <option value="">Select Class</option>
-        <option>9th</option>
-        <option>10th</option>
-        <option>11th</option>
-        <option>12th</option>
-        <option>JEE Preparation</option>
-        <option>NEET Preparation</option>
-        <option>Foundation Course</option>
-        <option>CUET Preparation</option>
-        <option>Other Courses</option>
+        <option value="">Select Programme</option>
+
+        {% for course, description in courses %}
+        <option value="{{ course }}">{{ course }}</option>
+        {% endfor %}
+
     </select>
 
     <label>Subject</label>
@@ -429,11 +403,13 @@ STUDENT ENQUIRY FORM
         <option>Physics</option>
         <option>Chemistry</option>
         <option>Biology</option>
+        <option>Reasoning</option>
+        <option>General Studies</option>
         <option>All Subjects</option>
         <option>Other</option>
     </select>
 
-    <label>School Name</label>
+    <label>School / College Name</label>
     <input type="text" name="school">
 
     <label>City</label>
@@ -458,19 +434,22 @@ STUDENT ENQUIRY FORM
 """
 
 
-# ==============================
+# =================================
 # HOME PAGE ROUTE
-# ==============================
+# =================================
 
 @app.route("/")
 def home():
 
-    return render_template_string(HOME_HTML)
+    return render_template_string(
+        HOME_HTML,
+        courses=COURSES
+    )
 
 
-# ==============================
+# =================================
 # ENQUIRY PAGE ROUTE
-# ==============================
+# =================================
 
 @app.route("/enquiry", methods=["GET", "POST"])
 def enquiry():
@@ -488,11 +467,10 @@ def enquiry():
         city = request.form.get("city")
 
         print("NEW STUDENT ENQUIRY")
-
         print("Student:", student)
         print("Father:", father)
         print("Mobile:", mobile)
-        print("Class:", class_name)
+        print("Programme:", class_name)
         print("Subject:", subject)
         print("School:", school)
         print("City:", city)
@@ -501,13 +479,14 @@ def enquiry():
 
     return render_template_string(
         FORM_HTML,
-        submitted=submitted
+        submitted=submitted,
+        courses=COURSES
     )
 
 
-# ==============================
+# =================================
 # RUN APPLICATION
-# ==============================
+# =================================
 
 if __name__ == "__main__":
 
