@@ -4,49 +4,76 @@ import os
 
 app = Flask(__name__)
 
+# ==============================
+# HOME PAGE
+# ==============================
+
 HOME_HTML = """
 <!DOCTYPE html>
 <html>
 <head>
-<title>Elite Maths Academy 2070</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Elite Maths Academy 2070</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     margin: 0;
     background: #eef2f7;
     color: #222;
 }
+
 header {
     background: #173b70;
     color: white;
-    padding: 25px 15px;
+    padding: 30px 15px;
     text-align: center;
 }
+
+header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+header p {
+    font-size: 17px;
+}
+
 nav {
     background: white;
-    padding: 15px;
+    padding: 18px;
     text-align: center;
+    box-shadow: 0 2px 6px #ddd;
 }
+
 nav a {
     color: #173b70;
     text-decoration: none;
     margin: 10px;
     font-weight: bold;
 }
+
 .hero {
-    text-align: center;
-    padding: 65px 15px;
     background: white;
+    text-align: center;
+    padding: 65px 20px;
 }
+
 .hero h2 {
     color: #173b70;
-    font-size: 30px;
+    font-size: 32px;
 }
+
 .hero p {
     font-size: 18px;
     line-height: 1.6;
 }
+
 .btn {
     display: inline-block;
     background: #173b70;
@@ -54,122 +81,241 @@ nav a {
     padding: 15px 28px;
     text-decoration: none;
     border-radius: 7px;
-    margin-top: 20px;
+    margin-top: 15px;
+    font-weight: bold;
 }
+
+.btn:hover {
+    background: #24569b;
+}
+
 .section {
+    padding: 45px 20px;
     text-align: center;
-    padding: 35px 15px;
 }
+
+.section h2 {
+    color: #173b70;
+    margin-bottom: 30px;
+}
+
 .cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: auto;
 }
+
 .card {
     background: white;
-    padding: 22px;
-    border-radius: 10px;
-    width: 220px;
-    box-shadow: 0 2px 8px #ccc;
+    padding: 30px 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #ccc;
+    transition: 0.3s;
 }
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    color: #173b70;
+}
+
+.card p {
+    line-height: 1.5;
+}
+
+.about {
+    background: white;
+}
+
 footer {
     background: #173b70;
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 25px;
 }
+
+@media(max-width:600px) {
+
+    header h1 {
+        font-size: 23px;
+    }
+
+    .hero h2 {
+        font-size: 25px;
+    }
+
+    nav a {
+        display: inline-block;
+        margin: 8px;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>ELITE MATHS ACADEMY 2070</h1>
-<p>Learn Today, Lead Tomorrow</p>
+    <h1>ELITE MATHS ACADEMY 2070</h1>
+    <p>Learn Today, Lead Tomorrow</p>
 </header>
 
 <nav>
-<a href="/">Home</a>
-<a href="#about">About</a>
-<a href="#courses">Courses</a>
-<a href="#contact">Contact</a>
+    <a href="/">Home</a>
+    <a href="#about">About</a>
+    <a href="#courses">Courses</a>
+    <a href="#contact">Contact</a>
 </nav>
 
 <div class="hero">
-<h2>Welcome to Elite Maths Academy</h2>
-<p>
-Build Your Knowledge, Improve Your Skills
-and Achieve Your Goals.
-</p>
-<p>Quality Education for Classes 9th to 12th</p>
 
-<a class="btn" href="/enquiry">
-STUDENT ENQUIRY
-</a>
+    <h2>Welcome to Elite Maths Academy</h2>
+
+    <p>
+        Build Your Knowledge, Improve Your Skills
+        and Achieve Your Goals.
+    </p>
+
+    <p>
+        Quality Education for Students
+    </p>
+
+    <a class="btn" href="/enquiry">
+        STUDENT ENQUIRY
+    </a>
+
 </div>
 
-<div class="section" id="about">
-<h2>About Our Academy</h2>
-<p>
-Welcome to Elite Maths Academy 2070.
-We focus on quality education and student success.
-</p>
+<div class="section about" id="about">
+
+    <h2>About Our Academy</h2>
+
+    <p>
+        Welcome to Elite Maths Academy 2070.
+        We focus on quality education
+        and student success.
+    </p>
+
 </div>
 
 <div class="section" id="courses">
-<h2>Our Courses</h2>
 
-<div class="cards">
-<div class="card">
-<h3>Class 9th</h3>
-<p>Mathematics and Science</p>
+    <h2>OUR COURSES</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Class 9th</h3>
+            <p>Mathematics and Science</p>
+        </div>
+
+        <div class="card">
+            <h3>Class 10th</h3>
+            <p>Mathematics and Science</p>
+        </div>
+
+        <div class="card">
+            <h3>Class 11th</h3>
+            <p>Mathematics, Physics, Chemistry, Biology</p>
+        </div>
+
+        <div class="card">
+            <h3>Class 12th</h3>
+            <p>Mathematics, Physics, Chemistry, Biology</p>
+        </div>
+
+        <div class="card">
+            <h3>JEE Preparation</h3>
+            <p>Engineering Entrance Preparation</p>
+        </div>
+
+        <div class="card">
+            <h3>NEET Preparation</h3>
+            <p>Medical Entrance Preparation</p>
+        </div>
+
+        <div class="card">
+            <h3>Foundation Course</h3>
+            <p>Build Strong Academic Concepts</p>
+        </div>
+
+        <div class="card">
+            <h3>CUET Preparation</h3>
+            <p>Common University Entrance Preparation</p>
+        </div>
+
+        <div class="card">
+            <h3>Other Courses</h3>
+            <p>Contact Us for More Details</p>
+        </div>
+
+    </div>
+
+    <a class="btn" href="/enquiry">
+        Enquire About Courses
+    </a>
+
 </div>
 
-<div class="card">
-<h3>Class 10th</h3>
-<p>Mathematics and Science</p>
-</div>
+<div class="section about" id="contact">
 
-<div class="card">
-<h3>Class 11th</h3>
-<p>Mathematics, Physics, Chemistry</p>
-</div>
+    <h2>CONTACT US</h2>
 
-<div class="card">
-<h3>Class 12th</h3>
-<p>Mathematics, Physics, Chemistry</p>
-</div>
-</div>
-</div>
+    <p>
+        For Admission Enquiries,
+        Please Contact Our Academy.
+    </p>
 
-<div class="section" id="contact">
-<h2>Contact Us</h2>
-<p>For admission enquiries, please fill out our form.</p>
-<a class="btn" href="/enquiry">Enquire Now</a>
+    <a class="btn" href="/enquiry">
+        Enquire Now
+    </a>
+
 </div>
 
 <footer>
-<p>© 2026 Elite Maths Academy 2070</p>
-<p>All Rights Reserved</p>
+
+    <h3>ELITE MATHS ACADEMY 2070</h3>
+
+    <p>Learn Today, Lead Tomorrow</p>
+
+    <p>© 2026 Elite Maths Academy 2070</p>
+
+    <p>All Rights Reserved</p>
+
 </footer>
 
 </body>
 </html>
 """
 
+
+# ==============================
+# STUDENT ENQUIRY FORM
+# ==============================
+
 FORM_HTML = """
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Student Enquiry - Elite Maths Academy</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+
 <style>
+
 body {
     font-family: Arial;
     background: #eef2f7;
     padding: 20px;
 }
+
 .container {
     max-width: 550px;
     margin: auto;
@@ -178,13 +324,16 @@ body {
     border-radius: 12px;
     box-shadow: 0 3px 15px #ccc;
 }
+
 h1 {
     text-align: center;
     color: #173b70;
 }
+
 label {
     font-weight: bold;
 }
+
 input, select {
     width: 100%;
     padding: 12px;
@@ -193,6 +342,7 @@ input, select {
     border: 1px solid #ccc;
     border-radius: 6px;
 }
+
 button {
     width: 100%;
     padding: 14px;
@@ -203,84 +353,124 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
 .home {
     display: block;
     text-align: center;
     margin-top: 20px;
     color: #173b70;
+    text-decoration: none;
 }
+
 .success {
     color: green;
     text-align: center;
 }
+
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
 <h1>ELITE MATHS ACADEMY 2070</h1>
-<h3 style="text-align:center">STUDENT ENQUIRY FORM</h3>
+
+<h3 style="text-align:center">
+STUDENT ENQUIRY FORM
+</h3>
 
 {% if submitted %}
-<h2 class="success">Thank You!</h2>
-<p class="success">Your enquiry form has been submitted.</p>
-<a class="home" href="/">Back to Home Page</a>
+
+    <h2 class="success">Thank You!</h2>
+
+    <p class="success">
+    Your enquiry form has been submitted.
+    </p>
+
+    <a class="home" href="/">
+        Back to Home Page
+    </a>
 
 {% else %}
 
 <form method="POST">
 
-<label>Student Name</label>
-<input type="text" name="student" required>
+    <label>Student Name</label>
+    <input type="text" name="student" required>
 
-<label>Father's Name</label>
-<input type="text" name="father" required>
+    <label>Father's Name</label>
+    <input type="text" name="father" required>
 
-<label>Mobile Number</label>
-<input type="tel" name="mobile"
-pattern="[0-9]{10}" maxlength="10" required>
+    <label>Mobile Number</label>
+    <input type="tel" name="mobile"
+    pattern="[0-9]{10}" maxlength="10" required>
 
-<label>Class</label>
-<select name="class_name" required>
-<option value="">Select Class</option>
-<option>9th</option>
-<option>10th</option>
-<option>11th</option>
-<option>12th</option>
-</select>
+    <label>Class</label>
 
-<label>Subject</label>
-<select name="subject" required>
-<option value="">Select Subject</option>
-<option>Mathematics</option>
-<option>Physics</option>
-<option>Chemistry</option>
-<option>Biology</option>
-</select>
+    <select name="class_name" required>
+        <option value="">Select Class</option>
+        <option>9th</option>
+        <option>10th</option>
+        <option>11th</option>
+        <option>12th</option>
+        <option>JEE Preparation</option>
+        <option>NEET Preparation</option>
+        <option>Foundation Course</option>
+        <option>CUET Preparation</option>
+        <option>Other Courses</option>
+    </select>
 
-<label>School Name</label>
-<input type="text" name="school">
+    <label>Subject</label>
 
-<label>City</label>
-<input type="text" name="city" required>
+    <select name="subject" required>
+        <option value="">Select Subject</option>
+        <option>Mathematics</option>
+        <option>Physics</option>
+        <option>Chemistry</option>
+        <option>Biology</option>
+        <option>All Subjects</option>
+        <option>Other</option>
+    </select>
 
-<button type="submit">SUBMIT ENQUIRY</button>
+    <label>School Name</label>
+    <input type="text" name="school">
+
+    <label>City</label>
+    <input type="text" name="city" required>
+
+    <button type="submit">
+        SUBMIT ENQUIRY
+    </button>
 
 </form>
 
-<a class="home" href="/">Back to Home Page</a>
+<a class="home" href="/">
+    Back to Home Page
+</a>
 
 {% endif %}
+
 </div>
+
 </body>
 </html>
 """
 
+
+# ==============================
+# HOME PAGE ROUTE
+# ==============================
+
 @app.route("/")
 def home():
+
     return render_template_string(HOME_HTML)
 
+
+# ==============================
+# ENQUIRY PAGE ROUTE
+# ==============================
 
 @app.route("/enquiry", methods=["GET", "POST"])
 def enquiry():
@@ -288,6 +478,7 @@ def enquiry():
     submitted = False
 
     if request.method == "POST":
+
         student = request.form.get("student")
         father = request.form.get("father")
         mobile = request.form.get("mobile")
@@ -296,9 +487,15 @@ def enquiry():
         school = request.form.get("school")
         city = request.form.get("city")
 
-        print("New enquiry received:",
-              student, father, mobile,
-              class_name, subject, school, city)
+        print("NEW STUDENT ENQUIRY")
+
+        print("Student:", student)
+        print("Father:", father)
+        print("Mobile:", mobile)
+        print("Class:", class_name)
+        print("Subject:", subject)
+        print("School:", school)
+        print("City:", city)
 
         submitted = True
 
@@ -308,7 +505,12 @@ def enquiry():
     )
 
 
+# ==============================
+# RUN APPLICATION
+# ==============================
+
 if __name__ == "__main__":
+
     app.run(
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 5000))
